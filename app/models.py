@@ -1,6 +1,6 @@
 from typing import List
 
-from sqlalchemy import String, Integer
+from sqlalchemy import Column, String, Integer, Table
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import DeclarativeBase 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -21,6 +21,14 @@ class User(Base):
     user_username: Mapped[str] = mapped_column(String(50))
 
 
+rule_subject = Table(
+        "rule_subject",
+        Base.metadata,
+        Column("id", Integer, primary_key=True),
+        Column("subject_id", ForeignKey("subject.id")),
+        Column("rule_id", ForeignKey("rule.id")))
+
+
 class Subject(Base):
     __tablename__ = "subject"
 
@@ -30,7 +38,7 @@ class Subject(Base):
     user_first_name: Mapped[str] = mapped_column(String(50))
     user_last_name: Mapped[str] = mapped_column(String(50))
     user_username: Mapped[str] = mapped_column(String(50))
-    rules: Mapped[List["Rule"]] = relationship()
+    rules: Mapped[List["Rule"]] = relationship(secondary=rule_subject)
 
 
 class Rule(Base):
@@ -39,13 +47,15 @@ class Rule(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     description: Mapped[str] = mapped_column(String)
 
-class Rule_Subject(Base):
-    __tablename__ = "rule_subject"
+# class Rule_Subject(Base):
+#     __tablename__ = "rule_subject"
+#
+#     id: Mapped[int] = mapped_column(primary_key=True)
+#     subject_id = mapped_column(ForeignKey("subject.id"))
+#     rule_id = mapped_column(ForeignKey("rule.id"))
 
-    id: Mapped[int] = mapped_column(primary_key=True)
-    subject_id = mapped_column(ForeignKey("subject.id"))
-    rule_id = mapped_column(ForeignKey("rule.id"))
 
+        
 
 
 

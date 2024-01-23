@@ -15,9 +15,9 @@ class UserRepository:
         with get_db() as session:
             user = User(user_id=user_id, 
                         user_chat_id=user_chat_id, 
-                        first_name=first_name, 
-                        last_name=last_name, 
-                        username=username
+                        user_first_name=first_name, 
+                        user_last_name=last_name, 
+                        user_username=username
                         ) 
             session.add(user)
             session.commit()
