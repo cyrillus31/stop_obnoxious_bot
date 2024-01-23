@@ -3,7 +3,6 @@ from models import User, Subject, Rule
 
 
 class UserRepository:
-    
     @classmethod
     def create_user(cls, 
                     user_id: int,
@@ -23,6 +22,24 @@ class UserRepository:
             session.commit()
 
 
-UserRepository.create_user(1234,567,"first_name_user_test")
+class SubjectRepository:
+    @classmethod
+    def create_subject(cls,
+                       user_id: int,
+                       user_chat_id: int,
+                       user_first_name: str,
+                       user_last_name: str = "",
+                       user_username: str = ""
+                       ):
+        
+        with get_db() as session:
+            sbj = Subject(user_id=user_id, 
+                        user_chat_id=user_chat_id, 
+                        user_first_name=user_first_name, 
+                        user_last_name=user_last_name, 
+                        user_username=user_username
+                        ) 
+            session.add(sbj)
+            session.commit()
 
 
